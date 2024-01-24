@@ -10,8 +10,8 @@
         android:id="@+id/textView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#B68282"
-        android:text="FRAGMENT NUMBER 1"
+        android:background="#CA1414"
+        android:text="FRAGMENT NUMBER 2"
         android:textAlignment="center"
         android:textSize="34sp" />
 </FrameLayout>

@@ -10,29 +10,58 @@
         android:id="@+id/testData"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="100dp"
+        android:layout_marginEnd="100dp"
         android:background="#00A32424"
         android:backgroundTint="#FFFFFF"
         android:drawableTint="#FFFFFF"
-        android:text="Main Page"
-        android:textColor="#000000"
+        android:text="Valorant Tracker"
         android:textSize="40sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.571"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.116" />
+
+    <Button
+        android:id="@+id/myButton"
+        android:layout_width="293dp"
+        android:layout_height="64dp"
+        android:layout_marginStart="100dp"
+        android:layout_marginTop="108dp"
+        android:layout_marginEnd="100dp"
+        android:text="Agents"
+        android:textSize="34sp"
+        app:iconSize="90dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.414" />
+        app:layout_constraintVertical_bias="0.574" />
 
     <Button
-        android:id="@+id/myButton"
-        android:layout_width="152dp"
-        android:layout_height="65dp"
-        android:layout_marginTop="108dp"
-        android:text="YEAA"
+        android:id="@+id/button"
+        android:layout_width="302dp"
+        android:layout_height="63dp"
+        android:text="Random"
+        android:textSize="34sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/myButton"
+        app:layout_constraintVertical_bias="0.431" />
+
+    <ImageView
+        android:id="@+id/firstPageImage"
+        android:layout_width="310dp"
+        android:layout_height="210dp"
+        app:layout_constraintBottom_toTopOf="@+id/myButton"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/testData"
-        app:layout_constraintVertical_bias="0.053" />
+        tools:srcCompat="@tools:sample/avatars" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

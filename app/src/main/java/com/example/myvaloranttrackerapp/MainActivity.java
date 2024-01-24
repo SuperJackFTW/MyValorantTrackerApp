@@ -9,7 +9,10 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -29,6 +32,8 @@ public class MainActivity extends AppCompatActivity {
     TextView myTextView;
     Button myButton;
 
+    ImageView firstPageImage;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,11 +41,27 @@ public class MainActivity extends AppCompatActivity {
 
         myTextView = findViewById(R.id.testData);
         myButton = findViewById(R.id.myButton);
+        firstPageImage = findViewById(R.id.firstPageImage);
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://valorant-api.com")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
+
+        Request requestImage = retrofit.create(Request.class);
+
+        requestImage.getUser("e370fa57-4757-3604-3648-499e1f642d3f").enqueue(new Callback<Users>() {
+            @Override
+            public void onResponse(Call<Users> call, Response<Users> response) {
+                String img = response.body().data.displayIcon;
+                Picasso.get().load(img).into(firstPageImage);
+            }
+
+            @Override
+            public void onFailure(Call<Users> call, Throwable t) {
+
+            }
+        });
 
         myButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -49,7 +70,6 @@ public class MainActivity extends AppCompatActivity {
                 requestingUser.getUser("e370fa57-4757-3604-3648-499e1f642d3f").enqueue(new Callback<Users>() {
                     @Override
                     public void onResponse(Call<Users> call, Response<Users> response) {
-                        myTextView.setText(response.body().data.displayName);
                     }
 
                     @Override
@@ -58,7 +78,6 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
                 Intent i = new Intent(MainActivity.this, MainActivity2.class);
-                MainActivity.this.finish();
                 startActivity(i);
             }
         });
