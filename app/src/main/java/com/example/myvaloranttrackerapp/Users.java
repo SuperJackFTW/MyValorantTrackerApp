@@ -7,10 +7,40 @@ import org.json.JSONArray;
 import java.util.List;
 
 public class Users {
+
+    String uuid;
+
     DataClass data;
+
+    public Users(String uuid) {
+        this.uuid = uuid;
+    }
+
+    public String getUuid() {
+        return uuid;
+    }
+
+    public void setUuid(String uuid) {
+        this.uuid = uuid;
+    }
+
     class DataClass{
         String uuid, displayName, description, developerName;
         String displayIcon, displayIconSmall, bustPortrait, fullPortrait, fullPortraitV2, killfeedPortrait, background;
+
+        public DataClass(String uuid, String displayName, String description, String developerName, String displayIcon, String displayIconSmall, String bustPortrait, String fullPortrait, String fullPortraitV2, String killfeedPortrait, String background) {
+            this.uuid = uuid;
+            this.displayName = displayName;
+            this.description = description;
+            this.developerName = developerName;
+            this.displayIcon = displayIcon;
+            this.displayIconSmall = displayIconSmall;
+            this.bustPortrait = bustPortrait;
+            this.fullPortrait = fullPortrait;
+            this.fullPortraitV2 = fullPortraitV2;
+            this.killfeedPortrait = killfeedPortrait;
+            this.background = background;
+        }
 
         public String getDescription() {
             return description;

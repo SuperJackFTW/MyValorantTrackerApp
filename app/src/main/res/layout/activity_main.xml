@@ -16,6 +16,7 @@
         android:backgroundTint="#FFFFFF"
         android:drawableTint="#FFFFFF"
         android:text="Valorant Tracker"
+        android:textAlignment="center"
         android:textSize="40sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
