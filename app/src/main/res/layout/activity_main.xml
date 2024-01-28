@@ -46,7 +46,7 @@
         android:id="@+id/button"
         android:layout_width="302dp"
         android:layout_height="63dp"
-        android:text="Random"
+        android:text="Null"
         android:textSize="34sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

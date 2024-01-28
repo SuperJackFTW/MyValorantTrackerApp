@@ -9,7 +9,6 @@ import java.util.List;
 public class Users {
 
     String uuid;
-
     DataClass data;
 
     public Users(String uuid) {
@@ -26,20 +25,15 @@ public class Users {
 
     class DataClass{
         String uuid, displayName, description, developerName;
-        String displayIcon, displayIconSmall, bustPortrait, fullPortrait, fullPortraitV2, killfeedPortrait, background;
+        String displayIcon,fullPortrait;
 
-        public DataClass(String uuid, String displayName, String description, String developerName, String displayIcon, String displayIconSmall, String bustPortrait, String fullPortrait, String fullPortraitV2, String killfeedPortrait, String background) {
+        public DataClass(String uuid, String displayName, String description, String developerName, String displayIcon, String fullPortrait) {
             this.uuid = uuid;
             this.displayName = displayName;
             this.description = description;
             this.developerName = developerName;
             this.displayIcon = displayIcon;
-            this.displayIconSmall = displayIconSmall;
-            this.bustPortrait = bustPortrait;
             this.fullPortrait = fullPortrait;
-            this.fullPortraitV2 = fullPortraitV2;
-            this.killfeedPortrait = killfeedPortrait;
-            this.background = background;
         }
 
         public String getDescription() {
@@ -66,21 +60,6 @@ public class Users {
             this.displayIcon = displayIcon;
         }
 
-        public String getDisplayIconSmall() {
-            return displayIconSmall;
-        }
-
-        public void setDisplayIconSmall(String displayIconSmall) {
-            this.displayIconSmall = displayIconSmall;
-        }
-
-        public String getBustPortrait() {
-            return bustPortrait;
-        }
-
-        public void setBustPortrait(String bustPortrait) {
-            this.bustPortrait = bustPortrait;
-        }
 
         public String getFullPortrait() {
             return fullPortrait;
@@ -88,30 +67,6 @@ public class Users {
 
         public void setFullPortrait(String fullPortrait) {
             this.fullPortrait = fullPortrait;
-        }
-
-        public String getFullPortraitV2() {
-            return fullPortraitV2;
-        }
-
-        public void setFullPortraitV2(String fullPortraitV2) {
-            this.fullPortraitV2 = fullPortraitV2;
-        }
-
-        public String getKillfeedPortrait() {
-            return killfeedPortrait;
-        }
-
-        public void setKillfeedPortrait(String killfeedPortrait) {
-            this.killfeedPortrait = killfeedPortrait;
-        }
-
-        public String getBackground() {
-            return background;
-        }
-
-        public void setBackground(String background) {
-            this.background = background;
         }
 
         public String getUuid() {

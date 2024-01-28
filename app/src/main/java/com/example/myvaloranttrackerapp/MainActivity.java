@@ -38,14 +38,12 @@ public class MainActivity extends AppCompatActivity {
 
         String[] myStringArray = getResources().getStringArray(R.array.agent_uuids);
         StringBuilder myStringBuilder = new StringBuilder();
-        myStringBuilder.append(myStringArray[0]);
+        myStringBuilder.append(myStringArray[1]);
 
 //        for (String value : myStringArray){
 //            myStringBuilder.append(value).append("\n");
 //        }
-
-        myTextView.setText(myStringBuilder.toString());
-
+//        myTextView.setText(myStringBuilder.toString());
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://valorant-api.com")

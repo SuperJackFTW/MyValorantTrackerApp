@@ -11,37 +11,68 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
 import java.util.ArrayList;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity2 extends AppCompatActivity {
 
-    Button btnFragment1;
-    Button btnFragment2;
-    TextView myTextView;
-
-    ArrayList<Users> UserModel= new ArrayList<>();
+    Button addDataButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
 
-        setUpUserModel();
+        addDataButton = findViewById(R.id.addDataButton);
 
-        RecyclerView recyclerView = findViewById(R.id.myRecyclerView);
+        String[] myStringArray = getResources().getStringArray(R.array.agent_uuids);
+        StringBuilder myStringBuilder = new StringBuilder();
 
-        Agents_RecyclerViewAdapter adapter = new Agents_RecyclerViewAdapter(this, UserModel);
-
-        recyclerView.setAdapter(adapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-    }
-
-    private void setUpUserModel(){
-        String[] agentUuids = getResources().getStringArray(R.array.agent_uuids);
-
-        for(int i=0; i<agentUuids.length; i++){
-            UserModel.add(new Users(agentUuids[i]));
+        for(int i= 0; i<(myStringArray.length)-1; i++){
+            myStringBuilder.append(myStringArray[i]);
         }
-        myTextView.setText(String.valueOf(UserModel));
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("https://valorant-api.com")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        Request requestRetrofit = retrofit.create(Request.class);
+
+        addDataButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MyDatabaseHelper myDB = new MyDatabaseHelper(MainActivity2.this);
+
+                for(int i = 0; i< myStringArray.length; i++){
+                    requestRetrofit.getUser(myStringArray[i]).enqueue(new Callback<Users>() {
+                        @Override
+                        public void onResponse(Call<Users> call, Response<Users> response) {
+                            String name = response.body().data.displayName;
+                            String description = response.body().data.description;
+                            String uuid = response.body().data.uuid;
+                            String display_icon = response.body().data.displayIcon;
+                            String developer_name = response.body().data.developerName;
+                            String full_portrait = response.body().data.fullPortrait;
+
+                            myDB.addAgents(name, description, uuid, display_icon,developer_name,full_portrait);
+                        }
+                        @Override
+                        public void onFailure(Call<Users> call, Throwable t) {
+                        }
+                    });
+                }
+            }
+        });
+
     }
+
+
 }
