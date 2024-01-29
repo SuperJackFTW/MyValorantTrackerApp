@@ -23,16 +23,6 @@
         app:layout_constraintBottom_toTopOf="@+id/cardView"
         tools:layout_editor_absoluteX="-1dp">
 
-        <TextView
-            android:id="@+id/recyclerDescription"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:text="Description"
-            app:layout_constraintStart_toEndOf="@+id/recyclerImage"
-            app:layout_constraintTop_toBottomOf="@+id/recyclerName" />
-
         <ImageView
             android:id="@+id/recyclerImage"
             android:layout_width="wrap_content"
@@ -45,8 +35,8 @@
             android:id="@+id/recyclerName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="48dp"
             android:text="NAME"
             android:textSize="24sp"
             app:layout_constraintStart_toEndOf="@+id/recyclerImage"

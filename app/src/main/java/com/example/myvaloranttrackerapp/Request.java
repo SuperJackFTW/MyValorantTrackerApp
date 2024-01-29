@@ -11,6 +11,4 @@ public interface Request {
     @GET("/v1/agents/{uuid}")
     Call<Users> getUser(@Path("uuid")String uuid);
 
-    @GET("/v1/agents")
-    Call<List<AllAgentsModel>> getAgentsUuid();
 }

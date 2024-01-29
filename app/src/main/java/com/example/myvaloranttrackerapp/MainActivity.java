@@ -14,6 +14,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -38,48 +39,31 @@ public class MainActivity extends AppCompatActivity {
 
         String[] myStringArray = getResources().getStringArray(R.array.agent_uuids);
         StringBuilder myStringBuilder = new StringBuilder();
-        myStringBuilder.append(myStringArray[1]);
 
-//        for (String value : myStringArray){
-//            myStringBuilder.append(value).append("\n");
-//        }
-//        myTextView.setText(myStringBuilder.toString());
+        Random random = new Random();
+        int randomNum = random.nextInt(myStringArray.length);
 
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://valorant-api.com")
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
+        myStringBuilder.append(myStringArray[randomNum]);
 
-        Request requestRetrofit = retrofit.create(Request.class);
+        Request requestRetrofit = MyRetrofit.getRetrofit().create(Request.class);
+        Call<Users> call = requestRetrofit.getUser(String.valueOf(myStringBuilder));
 
-
-        //Displays the Image on the main page (Not Done, Left for now)
-        requestRetrofit.getUser("e370fa57-4757-3604-3648-499e1f642d3f").enqueue(new Callback<Users>() {
+        call.enqueue(new Callback<Users>() {
             @Override
             public void onResponse(Call<Users> call, Response<Users> response) {
-                String img = response.body().data.displayIcon;
+                String img = response.body().data.getDisplayIcon();
                 Picasso.get().load(img).into(firstPageImage);
             }
+
             @Override
             public void onFailure(Call<Users> call, Throwable t) {
+
             }
         });
 
-        //Button to access the next page through getting a Uuid (Incomplete, the button rn only goes to next page)
         myButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Request requestingUser = retrofit.create(Request.class);
-                requestingUser.getUser("e370fa57-4757-3604-3648-499e1f642d3f").enqueue(new Callback<Users>() {
-                    @Override
-                    public void onResponse(Call<Users> call, Response<Users> response) {
-                    }
-
-                    @Override
-                    public void onFailure(Call<Users> call, Throwable t) {
-                        myTextView.setText(t.getMessage());
-                    }
-                });
                 Intent i = new Intent(MainActivity.this, MainActivity2.class);
                 startActivity(i);
             }
