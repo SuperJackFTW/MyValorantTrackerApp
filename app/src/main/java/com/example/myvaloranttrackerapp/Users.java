@@ -12,10 +12,15 @@ public class Users extends LitePalSupport{
 
     DataClass data;
 
-    class DataClass{
+    static class DataClass extends LitePalSupport{
 
         @Column(unique = true, defaultValue = "unknown")
         private String uuid, displayName, description, developerName, displayIcon, fullPortrait;
+
+        public DataClass(String displayName, String displayIcon) {
+            this.displayName = displayName;
+            this.displayIcon = displayIcon;
+        }
 
         public String getUuid() {
             return uuid;

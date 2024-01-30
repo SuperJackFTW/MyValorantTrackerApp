@@ -34,19 +34,10 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity2 extends AppCompatActivity{
 
-    Button addDataButton;
-    RecyclerView myRecyclerView;
-    MyDatabaseHelper myDB;
-    ArrayList<String> name, description, uuid, display_icon, developer_name, full_portrait;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
-//        LitePal.initialize(this);
-//        SQLiteDatabase myDatabase = LitePal.getDatabase();
-
-        addDataButton = findViewById(R.id.addDataButton);
 
         String[] myStringArray = getResources().getStringArray(R.array.agent_uuids);
         StringBuilder myStringBuilder = new StringBuilder();
@@ -55,38 +46,38 @@ public class MainActivity2 extends AppCompatActivity{
             myStringBuilder.append(myStringArray[i]);
         }
 
-        ArrayList<UsersRecyclerView> agents = new ArrayList<UsersRecyclerView>();
+        RecyclerView myRecyclerView = findViewById(R.id.myRecyclerView);
+        List<Users.DataClass> users = new ArrayList<Users.DataClass>();
 
-        agents.add(new UsersRecyclerView());
+        //Code for adding users into the recycler view
+        users.add(new Users.DataClass("Gekko","https://media.valorant-api.com/agents/e370fa57-4757-3604-3648-499e1f642d3f/displayicon.png"));
 
-        myRecyclerView = findViewById(R.id.myRecyclerView);
-        myRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        myRecyclerView.setAdapter(new Agents_RecyclerViewAdapter(getApplicationContext(),agents));
+        Request requestRetrofit = MyRetrofit.getRetrofit().create(Request.class);
 
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://valorant-api.com")
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
+        //Loop to add agents into the recyclerview
+        for(int i=1; i<(myStringArray.length);i++){
+            Call<Users> call = requestRetrofit.getUser(String.valueOf(myStringArray[i]));
+            call.enqueue(new Callback<Users>() {
+                @Override
+                public void onResponse(Call<Users> call, Response<Users> response) {
+                    DatabaseColumn eachRow = LitePal.find(DatabaseColumn.class,8);
+                    String name = eachRow.getDisplayName();
+                    String img = eachRow.getDisplayIcon();
+                    users.add(new Users.DataClass(name,img));
 
-        Request requestRetrofit = retrofit.create(Request.class);
-
-        addDataButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                MyDatabaseHelper myDB = new MyDatabaseHelper(MainActivity2.this);
-
-                for(int i = 0; i< myStringArray.length; i++){
-                    requestRetrofit.getUser(myStringArray[i]).enqueue(new Callback<Users>() {
-                        @Override
-                        public void onResponse(Call<Users> call, Response<Users> response) {
-
-                        }
-                        @Override
-                        public void onFailure(Call<Users> call, Throwable t) {
-                        }
-                    });
+//                    String name = response.body().data.getDisplayName();
+//                    String img = response.body().data.getDisplayIcon();
+//                    users.add(new Users.DataClass(name,img));
                 }
-            }
-        });
+
+                @Override
+                public void onFailure(Call<Users> call, Throwable t) {
+                }
+            });
+        }
+
+        myRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        myRecyclerView.setAdapter(new Agents_RecyclerViewAdapter(getApplicationContext(),users));
+
     }
 }

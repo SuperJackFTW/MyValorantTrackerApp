@@ -13,12 +13,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Agents_RecyclerViewAdapter extends RecyclerView.Adapter<Agents_RecyclerViewAdapter.MyViewHolder> {
 
     Context context;
-    ArrayList<UsersRecyclerView> usersModel;
-    public Agents_RecyclerViewAdapter(Context context, ArrayList<UsersRecyclerView> usersModel){
+    List<Users.DataClass> usersModel;
+
+    public Agents_RecyclerViewAdapter(Context context, List<Users.DataClass> usersModel){
         this.context = context;
         this.usersModel = usersModel;
     }
@@ -33,8 +35,8 @@ public class Agents_RecyclerViewAdapter extends RecyclerView.Adapter<Agents_Recy
     @Override
     public void onBindViewHolder(@NonNull Agents_RecyclerViewAdapter.MyViewHolder holder, int position) {
         //Assigning the values to each views created in the recycler view layout file
-        holder.recyclerName.setText(usersModel.get(position).data.displayName);
-        Picasso.get().load(usersModel.get(position).data.getDisplayIcon()).into(holder.recyclerImage);
+        holder.recyclerName.setText(usersModel.get(position).getDisplayName());
+        Picasso.get().load(usersModel.get(position).getDisplayIcon()).into(holder.recyclerImage);
     }
 
     @Override
