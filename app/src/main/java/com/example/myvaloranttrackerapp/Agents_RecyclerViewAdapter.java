@@ -1,16 +1,21 @@
 package com.example.myvaloranttrackerapp;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.squareup.picasso.Picasso;
+
+import org.litepal.LitePal;
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,6 +24,7 @@ public class Agents_RecyclerViewAdapter extends RecyclerView.Adapter<Agents_Recy
 
     Context context;
     List<Users.DataClass> usersModel;
+
 
     public Agents_RecyclerViewAdapter(Context context, List<Users.DataClass> usersModel){
         this.context = context;
@@ -37,6 +43,27 @@ public class Agents_RecyclerViewAdapter extends RecyclerView.Adapter<Agents_Recy
         //Assigning the values to each views created in the recycler view layout file
         holder.recyclerName.setText(usersModel.get(position).getDisplayName());
         Picasso.get().load(usersModel.get(position).getDisplayIcon()).into(holder.recyclerImage);
+        RelativeLayout myRelativeLayout = holder.itemView.findViewById(R.id.myRelativeLayout);
+
+        myRelativeLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int numOfRows = LitePal.count(DatabaseColumn.class);
+                String agentName = holder.recyclerName.getText().toString();
+
+                DatabaseColumn getResults = LitePal.where("displayName = ?", agentName).findFirst(DatabaseColumn.class);
+                String name = getResults.getDisplayName().toString();
+                if(holder.myTextView != null){
+                    holder.myTextView.setText(name);
+                }
+
+
+                Context newContext = v.getContext();
+                Intent myIntent = new Intent(newContext, AgentsActivity.class);
+                myIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                newContext.startActivity(myIntent);
+            }
+        });
     }
 
     @Override
@@ -49,12 +76,18 @@ public class Agents_RecyclerViewAdapter extends RecyclerView.Adapter<Agents_Recy
 
         ImageView recyclerImage;
         TextView recyclerName;
+        TextView myTextView;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
 
             recyclerImage = itemView.findViewById(R.id.recyclerImage);
             recyclerName = itemView.findViewById(R.id.recyclerName);
+            myTextView = itemView.findViewById(R.id.fragment1Name);
         }
+    }
+
+    public interface TextViewUpdater{
+        void updateTextView(String newText);
     }
 }

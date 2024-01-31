@@ -49,31 +49,14 @@ public class MainActivity2 extends AppCompatActivity{
         RecyclerView myRecyclerView = findViewById(R.id.myRecyclerView);
         List<Users.DataClass> users = new ArrayList<Users.DataClass>();
 
-        //Code for adding users into the recycler view
-        users.add(new Users.DataClass("Gekko","https://media.valorant-api.com/agents/e370fa57-4757-3604-3648-499e1f642d3f/displayicon.png"));
-
         Request requestRetrofit = MyRetrofit.getRetrofit().create(Request.class);
 
         //Loop to add agents into the recyclerview
-        for(int i=1; i<(myStringArray.length);i++){
-            Call<Users> call = requestRetrofit.getUser(String.valueOf(myStringArray[i]));
-            call.enqueue(new Callback<Users>() {
-                @Override
-                public void onResponse(Call<Users> call, Response<Users> response) {
-                    DatabaseColumn eachRow = LitePal.find(DatabaseColumn.class,8);
-                    String name = eachRow.getDisplayName();
-                    String img = eachRow.getDisplayIcon();
-                    users.add(new Users.DataClass(name,img));
-
-//                    String name = response.body().data.getDisplayName();
-//                    String img = response.body().data.getDisplayIcon();
-//                    users.add(new Users.DataClass(name,img));
-                }
-
-                @Override
-                public void onFailure(Call<Users> call, Throwable t) {
-                }
-            });
+        for(int i = 1; i < (myStringArray.length)+1; i++){
+            DatabaseColumn databaseRow = LitePal.find(DatabaseColumn.class, i);
+            String img = databaseRow.getDisplayIcon();
+            String name = databaseRow.getDisplayName();
+            users.add(new Users.DataClass(name,img));
         }
 
         myRecyclerView.setLayoutManager(new LinearLayoutManager(this));
