@@ -81,19 +81,25 @@ public class MainActivity extends AppCompatActivity {
             });
         }
 
+        //Retrieve the image from online API if no values exist in database, otherwise, just takes the image from database
+        boolean isMyTableEmpty = LitePal.count(DatabaseColumn.class) == 0;
+        if(isMyTableEmpty == false){
+            DatabaseColumn findImage = LitePal.find(DatabaseColumn.class,randomNum);
+            String img = findImage.getDisplayIcon();
+            Picasso.get().load(img).into(firstPageImage);
+        }else{
+            getTheImage.enqueue(new Callback<Users>() {
+                @Override
+                public void onResponse(Call<Users> getTheImage, Response<Users> response) {
+                    String img = response.body().data.getDisplayIcon();
+                    Picasso.get().load(img).into(firstPageImage);
+                }
+                @Override
+                public void onFailure(Call<Users> getTheImage, Throwable t) {
 
-        getTheImage.enqueue(new Callback<Users>() {
-            @Override
-            public void onResponse(Call<Users> getTheImage, Response<Users> response) {
-                String img = response.body().data.getDisplayIcon();
-                Picasso.get().load(img).into(firstPageImage);
-            }
-
-            @Override
-            public void onFailure(Call<Users> getTheImage, Throwable t) {
-
-            }
-        });
+                }
+            });
+        }
 
         myButton.setOnClickListener(new View.OnClickListener() {
             @Override

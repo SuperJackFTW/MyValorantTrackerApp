@@ -53,10 +53,6 @@ public class Agents_RecyclerViewAdapter extends RecyclerView.Adapter<Agents_Recy
 
                 DatabaseColumn getResults = LitePal.where("displayName = ?", agentName).findFirst(DatabaseColumn.class);
                 String name = getResults.getDisplayName().toString();
-                if(holder.myTextView != null){
-                    holder.myTextView.setText(name);
-                }
-
 
                 Context newContext = v.getContext();
                 Intent myIntent = new Intent(newContext, AgentsActivity.class);
@@ -76,14 +72,12 @@ public class Agents_RecyclerViewAdapter extends RecyclerView.Adapter<Agents_Recy
 
         ImageView recyclerImage;
         TextView recyclerName;
-        TextView myTextView;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
 
             recyclerImage = itemView.findViewById(R.id.recyclerImage);
             recyclerName = itemView.findViewById(R.id.recyclerName);
-            myTextView = itemView.findViewById(R.id.fragment1Name);
         }
     }
 
