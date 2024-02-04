@@ -24,9 +24,8 @@ import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
 
-    TextView myTextView,getMyTextView2;
+    TextView myTextView;
     Button myButton;
-    Button randomButton;
     ImageView firstPageImage;
 
     @Override
@@ -34,29 +33,36 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //Initialize and create a Database
         LitePal.initialize(this);
         SQLiteDatabase db = LitePal.getDatabase();
 
+        //Find the ids from the xml
         myTextView = findViewById(R.id.testData);
         myButton = findViewById(R.id.myButton);
         firstPageImage = findViewById(R.id.firstPageImage);
 
+        //Retrieve all the uuids (hardcoded) into the strings.xml file
         String[] myStringArray = getResources().getStringArray(R.array.agent_uuids);
         StringBuilder myStringBuilder = new StringBuilder();
 
+        //To obtain a random number to be generated at the main screen.
         Random random = new Random();
         int randomNum = random.nextInt(myStringArray.length);
         myStringBuilder.append(myStringArray[randomNum]);
 
+        //Request for retrofit
         Request requestRetrofit = MyRetrofit.getRetrofit().create(Request.class);
+        //Retrieve image from online API
         Call<Users> getTheImage = requestRetrofit.getUser(String.valueOf(myStringBuilder));
 
-
+        //A forloop to retrieve all the values from the API and store it into the database.
         for(int i= 0; i < myStringArray.length; i++){
             Call<Users> call = requestRetrofit.getUser(String.valueOf(myStringArray[i]));
             call.enqueue(new Callback<Users>() {
                 @Override
                 public void onResponse(Call<Users> call, Response<Users> response) {
+                    //Get All the needed values
                     String uuid = response.body().data.getUuid();
                     String description = response.body().data.getDescription();
                     String name = response.body().data.getDisplayName();
@@ -64,6 +70,7 @@ public class MainActivity extends AppCompatActivity {
                     String portrait = response.body().data.getFullPortrait();
                     String developer = response.body().data.getDeveloperName();
 
+                    //Adding them all into the database per row.
                     DatabaseColumn databaseColumn = new DatabaseColumn();
                     databaseColumn.setUuid(uuid);
                     databaseColumn.setDescription(description);
@@ -101,6 +108,7 @@ public class MainActivity extends AppCompatActivity {
             });
         }
 
+        //Button to navigate to the next activity.
         myButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

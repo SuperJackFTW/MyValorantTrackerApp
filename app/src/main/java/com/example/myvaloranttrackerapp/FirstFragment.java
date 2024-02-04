@@ -69,6 +69,7 @@ public class FirstFragment extends Fragment {
         return view;
     }
 
+    //To update the text in the fragment
     public void updateTextView(String text){
         testFragment1.setText(text);
     }

@@ -18,18 +18,29 @@ public class AgentsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_agents);
 
+        //Find the ids of two buttons
         Button button1 = findViewById(R.id.button1);
         Button button2 = findViewById(R.id.button2);
 
+        //Make first fragment
         FirstFragment firstFragment = new FirstFragment();
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.myFragmentContainer, firstFragment, "Fragment1Tag");
 
+        //Get intent value from previous activity with "NAME"
         Intent incomingIntent = getIntent();
         String intentValue = incomingIntent.getStringExtra("NAME");
 
+        //Searches through the database where according to "NAME" to get all the data values according to its column
         DatabaseColumn getResults = LitePal.where("displayName = ?", intentValue).findFirst(DatabaseColumn.class);
-        String name = getResults.getDescription().toString();
+
+        //Get values from database
+        String name = getResults.getDisplayName().toString();
+        String icon = getResults.getDisplayIcon().toString();
+        String developerName = getResults.getDeveloperName().toString();
+        String description = getResults.getDescription().toString();
+        String fullPortrait = getResults.getFullPortrait().toString();
+        String uuid = getResults.getUuid().toString();
 
         Log.d("THIS IS MY NAME",name);
 
@@ -39,7 +50,6 @@ public class AgentsActivity extends AppCompatActivity {
         //FirstFragment anotherTest = (FirstFragment) getSupportFragmentManager().findFragmentById(getMyFragmentId);
 
         //firstFragment.updateTextView(String.valueOf(anotherTest));
-
 
         button1.setOnClickListener(new View.OnClickListener() {
             @Override

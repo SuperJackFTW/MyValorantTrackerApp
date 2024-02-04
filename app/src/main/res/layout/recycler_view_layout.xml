@@ -5,12 +5,14 @@
     android:id="@+id/myRelativeLayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#A2DFE4">
+    android:background="@drawable/my_border">
+
 
     <TextView
         android:id="@+id/recyclerName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="13dp"
         android:layout_toEndOf="@id/recyclerImage"
         android:paddingLeft="20sp"
         android:paddingTop="35sp"
@@ -19,8 +21,8 @@
 
     <ImageView
         android:id="@+id/recyclerImage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="84dp"
+        android:layout_height="82dp"
         android:src="@drawable/ic_launcher_background" />
 
 </RelativeLayout>

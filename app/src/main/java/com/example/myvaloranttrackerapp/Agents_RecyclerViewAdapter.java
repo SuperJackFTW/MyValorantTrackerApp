@@ -26,8 +26,6 @@ public class Agents_RecyclerViewAdapter extends RecyclerView.Adapter<Agents_Recy
     Context context;
     List<Users.DataClass> usersModel;
 
-    private OnItemClickListener listener;
-
     public Agents_RecyclerViewAdapter(Context context, List<Users.DataClass> usersModel){
         this.context = context;
         this.usersModel = usersModel;
@@ -47,7 +45,7 @@ public class Agents_RecyclerViewAdapter extends RecyclerView.Adapter<Agents_Recy
         Picasso.get().load(usersModel.get(position).getDisplayIcon()).into(holder.recyclerImage);
         RelativeLayout myRelativeLayout = holder.itemView.findViewById(R.id.myRelativeLayout);
 
-
+        //Making it so each icon can be pressed to proceed to next activity
         myRelativeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -82,7 +80,4 @@ public class Agents_RecyclerViewAdapter extends RecyclerView.Adapter<Agents_Recy
         }
     }
 
-    public interface OnItemClickListener{
-        void onItemClick(String newText);
-    }
 }
