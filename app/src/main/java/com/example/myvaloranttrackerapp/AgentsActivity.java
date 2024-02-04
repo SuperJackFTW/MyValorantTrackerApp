@@ -7,7 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
+import android.util.Log;
 
 import org.litepal.LitePal;
 
@@ -21,13 +21,25 @@ public class AgentsActivity extends AppCompatActivity {
         Button button1 = findViewById(R.id.button1);
         Button button2 = findViewById(R.id.button2);
 
-        FirstFragment firstFragment = (FirstFragment) getSupportFragmentManager().findFragmentById(R.id.)
+        FirstFragment firstFragment = new FirstFragment();
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.myFragmentContainer, firstFragment, "Fragment1Tag");
 
         Intent incomingIntent = getIntent();
         String intentValue = incomingIntent.getStringExtra("NAME");
 
         DatabaseColumn getResults = LitePal.where("displayName = ?", intentValue).findFirst(DatabaseColumn.class);
-        String name = getResults.getDisplayName().toString();
+        String name = getResults.getDescription().toString();
+
+        Log.d("THIS IS MY NAME",name);
+
+        FirstFragment test = (FirstFragment) getSupportFragmentManager().findFragmentByTag("Fragment1Tag");
+        Log.d("MY TEST THING", String.valueOf(test));
+
+        //FirstFragment anotherTest = (FirstFragment) getSupportFragmentManager().findFragmentById(getMyFragmentId);
+
+        //firstFragment.updateTextView(String.valueOf(anotherTest));
+
 
         button1.setOnClickListener(new View.OnClickListener() {
             @Override

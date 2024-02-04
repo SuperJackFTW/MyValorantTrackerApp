@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -25,6 +26,7 @@ public class Agents_RecyclerViewAdapter extends RecyclerView.Adapter<Agents_Recy
     Context context;
     List<Users.DataClass> usersModel;
 
+    private OnItemClickListener listener;
 
     public Agents_RecyclerViewAdapter(Context context, List<Users.DataClass> usersModel){
         this.context = context;
@@ -45,14 +47,12 @@ public class Agents_RecyclerViewAdapter extends RecyclerView.Adapter<Agents_Recy
         Picasso.get().load(usersModel.get(position).getDisplayIcon()).into(holder.recyclerImage);
         RelativeLayout myRelativeLayout = holder.itemView.findViewById(R.id.myRelativeLayout);
 
+
         myRelativeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 int numOfRows = LitePal.count(DatabaseColumn.class);
                 String agentName = holder.recyclerName.getText().toString();
-
-//                DatabaseColumn getResults = LitePal.where("displayName = ?", agentName).findFirst(DatabaseColumn.class);
-//                String name = getResults.getDisplayName().toString();
 
                 Context newContext = v.getContext();
                 Intent myIntent = new Intent(newContext, AgentsActivity.class);
@@ -82,7 +82,7 @@ public class Agents_RecyclerViewAdapter extends RecyclerView.Adapter<Agents_Recy
         }
     }
 
-    public interface TextViewUpdater{
-        void updateTextView(String newText);
+    public interface OnItemClickListener{
+        void onItemClick(String newText);
     }
 }
