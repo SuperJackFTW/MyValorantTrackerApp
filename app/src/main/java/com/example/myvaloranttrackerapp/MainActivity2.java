@@ -49,8 +49,6 @@ public class MainActivity2 extends AppCompatActivity{
         RecyclerView myRecyclerView = findViewById(R.id.myRecyclerView);
         List<Users.DataClass> users = new ArrayList<Users.DataClass>();
 
-        Request requestRetrofit = MyRetrofit.getRetrofit().create(Request.class);
-
         //Loop to add agents into the recyclerview
         for(int i = 1; i < (myStringArray.length)+1; i++){
             DatabaseColumn databaseRow = LitePal.find(DatabaseColumn.class, i);

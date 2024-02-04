@@ -51,11 +51,12 @@ public class Agents_RecyclerViewAdapter extends RecyclerView.Adapter<Agents_Recy
                 int numOfRows = LitePal.count(DatabaseColumn.class);
                 String agentName = holder.recyclerName.getText().toString();
 
-                DatabaseColumn getResults = LitePal.where("displayName = ?", agentName).findFirst(DatabaseColumn.class);
-                String name = getResults.getDisplayName().toString();
+//                DatabaseColumn getResults = LitePal.where("displayName = ?", agentName).findFirst(DatabaseColumn.class);
+//                String name = getResults.getDisplayName().toString();
 
                 Context newContext = v.getContext();
                 Intent myIntent = new Intent(newContext, AgentsActivity.class);
+                myIntent.putExtra("NAME",agentName);
                 myIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 newContext.startActivity(myIntent);
             }
