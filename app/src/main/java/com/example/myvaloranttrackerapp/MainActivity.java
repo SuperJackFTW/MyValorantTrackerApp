@@ -14,8 +14,6 @@ import com.squareup.picasso.Picasso;
 
 import org.litepal.LitePal;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 import retrofit2.Call;
@@ -52,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
         myStringBuilder.append(myStringArray[randomNum]);
 
         //Request for retrofit
-        Request requestRetrofit = MyRetrofit.getRetrofit().create(Request.class);
+        RequestInterface requestRetrofit = MyRetrofit.getRetrofit().create(RequestInterface.class);
         //Retrieve image from online API
         Call<Users> getTheImage = requestRetrofit.getUser(String.valueOf(myStringBuilder));
 

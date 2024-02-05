@@ -7,7 +7,12 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
+
+import org.litepal.LitePal;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -16,11 +21,12 @@ import android.widget.TextView;
  */
 public class FirstFragment extends Fragment {
 
-    private TextView testFragment1;
+    private TextView fragment1TextView;
+    private ImageView fragment1ImageView;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
+    private static final String ARG_PARAM1 = "name";
     private static final String ARG_PARAM2 = "param2";
 
     // TODO: Rename and change types of parameters
@@ -29,6 +35,7 @@ public class FirstFragment extends Fragment {
 
     public FirstFragment() {
         // Required empty public constructor
+//        newInstance("","");
     }
 
     /**
@@ -64,13 +71,16 @@ public class FirstFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_first, container, false);
 
-        testFragment1 = view.findViewById(R.id.textFragment1);
+        fragment1TextView = view.findViewById(R.id.fragment1TextView);
+        fragment1ImageView = view.findViewById(R.id.fragment1ImageView);
+
+        if(mParam1 != null){
+            DatabaseColumn getResults = LitePal.where("displayName = ?", mParam1).findFirst(DatabaseColumn.class);
+            fragment1TextView.setText(getResults.getDescription());
+            Picasso.get().load(getResults.getFullPortrait()).into(fragment1ImageView);
+        }
 
         return view;
     }
 
-    //To update the text in the fragment
-    public void updateTextView(String text){
-        testFragment1.setText(text);
-    }
 }

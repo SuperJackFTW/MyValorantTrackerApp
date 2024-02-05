@@ -7,6 +7,12 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
+
+import org.litepal.LitePal;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -15,9 +21,12 @@ import android.view.ViewGroup;
  */
 public class SecondFragment extends Fragment {
 
+    private TextView textView3, textView4,fragment2Name, fragment2Developer;
+    private ImageView imageView, fragment2ImageView;
+
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
+    private static final String ARG_PARAM1 = "name";
     private static final String ARG_PARAM2 = "param2";
 
     // TODO: Rename and change types of parameters
@@ -59,6 +68,25 @@ public class SecondFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_second, container, false);
+        View view = inflater.inflate(R.layout.fragment_second, container, false);
+
+        textView3 = view.findViewById(R.id.textView3);
+        textView4 = view.findViewById(R.id.textView4);
+        fragment2Name = view.findViewById(R.id.fragment2Name);
+        fragment2Developer = view.findViewById(R.id.fragment2developer);
+        imageView = view.findViewById(R.id.imageView);
+        fragment2ImageView = view.findViewById(R.id.fragment2ImageView);
+
+        if(mParam1 != null){
+            DatabaseColumn getResults = LitePal.where("displayName = ?", mParam1).findFirst(DatabaseColumn.class);
+            textView4.setText(getResults.getDescription());
+            Picasso.get().load(getResults.getFullPortrait()).into(imageView);
+            textView3.setText(getResults.getUuid());
+            fragment2Name.setText("Name: "+ getResults.getDisplayName());
+            fragment2Developer.setText("Developer: " + getResults.getDeveloperName());
+            Picasso.get().load(getResults.getDisplayIcon()).into(fragment2ImageView);
+        }
+
+        return view;
     }
 }
