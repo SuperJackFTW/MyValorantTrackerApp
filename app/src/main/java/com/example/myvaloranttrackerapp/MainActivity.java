@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -33,7 +34,6 @@ public class MainActivity extends AppCompatActivity {
 
         //Initialize and create a Database
         LitePal.initialize(this);
-        SQLiteDatabase db = LitePal.getDatabase();
 
         //Find the ids from the xml
         myTextView = findViewById(R.id.testData);
@@ -56,34 +56,48 @@ public class MainActivity extends AppCompatActivity {
 
         //A forloop to retrieve all the values from the API and store it into the database.
         for(int i= 0; i < myStringArray.length; i++){
-            Call<Users> call = requestRetrofit.getUser(String.valueOf(myStringArray[i]));
-            call.enqueue(new Callback<Users>() {
-                @Override
-                public void onResponse(Call<Users> call, Response<Users> response) {
-                    //Get All the needed values
-                    String uuid = response.body().data.getUuid();
-                    String description = response.body().data.getDescription();
-                    String name = response.body().data.getDisplayName();
-                    String icon = response.body().data.getDisplayIcon();
-                    String portrait = response.body().data.getFullPortrait();
-                    String developer = response.body().data.getDeveloperName();
 
-                    //Adding them all into the database per row.
-                    DatabaseColumn databaseColumn = new DatabaseColumn();
-                    databaseColumn.setUuid(uuid);
-                    databaseColumn.setDescription(description);
-                    databaseColumn.setDisplayName(name);
-                    databaseColumn.setDisplayIcon(icon);
-                    databaseColumn.setFullPortrait(portrait);
-                    databaseColumn.setDeveloperName(developer);
-                    databaseColumn.save();
+            //Finds if a certain uuid exists already in the database
+            DatabaseColumn existingRecord = LitePal.where("uuid = ?", myStringArray[i]).findFirst(DatabaseColumn.class);
+
+            //If exists, it prints int he LogCat to notify us that it is there
+            if(existingRecord != null){
+                if((existingRecord.getUuid()).equals(myStringArray[i])){
+                    Log.w("Value Exists", String.valueOf(existingRecord.getUuid()));
                 }
+            }
+            else
+            {
+                //If doesn't exist, it requests for the data from the online API
+                Call<Users> call = requestRetrofit.getUser(String.valueOf(myStringArray[i]));
+                call.enqueue(new Callback<Users>() {
+                    @Override
+                    public void onResponse(Call<Users> call, Response<Users> response) {
+                        //Get All the needed values
+                        String uuid = response.body().data.getUuid();
+                        String description = response.body().data.getDescription();
+                        String name = response.body().data.getDisplayName();
+                        String icon = response.body().data.getDisplayIcon();
+                        String portrait = response.body().data.getFullPortrait();
+                        String developer = response.body().data.getDeveloperName();
 
-                @Override
-                public void onFailure(Call<Users> call, Throwable t) {
+                        //Adding them all into the database per row.
+                        DatabaseColumn databaseColumn = new DatabaseColumn();
+                        databaseColumn.setUuid(uuid);
+                        databaseColumn.setDescription(description);
+                        databaseColumn.setDisplayName(name);
+                        databaseColumn.setDisplayIcon(icon);
+                        databaseColumn.setFullPortrait(portrait);
+                        databaseColumn.setDeveloperName(developer);
+                        databaseColumn.save();
+                    }
 
-                }
-            });
+                    @Override
+                    public void onFailure(Call<Users> call, Throwable t) {
+                    }
+                });
+            }
+
         }
 
         //Retrieve the image from online API if no values exist in database, otherwise, just takes the image from database
@@ -92,7 +106,9 @@ public class MainActivity extends AppCompatActivity {
             DatabaseColumn findImage = LitePal.find(DatabaseColumn.class,randomNum);
             String img = findImage.getDisplayIcon();
             Picasso.get().load(img).into(firstPageImage);
-        }else{
+        }
+        else
+        {
             getTheImage.enqueue(new Callback<Users>() {
                 @Override
                 public void onResponse(Call<Users> getTheImage, Response<Users> response) {
