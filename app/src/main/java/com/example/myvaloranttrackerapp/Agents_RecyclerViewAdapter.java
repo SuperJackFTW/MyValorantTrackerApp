@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -16,9 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.squareup.picasso.Picasso;
 
 import org.litepal.LitePal;
-import org.w3c.dom.Text;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class Agents_RecyclerViewAdapter extends RecyclerView.Adapter<Agents_RecyclerViewAdapter.MyViewHolder> {
@@ -49,11 +46,10 @@ public class Agents_RecyclerViewAdapter extends RecyclerView.Adapter<Agents_Recy
         myRelativeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int numOfRows = LitePal.count(DatabaseColumn.class);
                 String agentName = holder.recyclerName.getText().toString();
 
                 Context newContext = v.getContext();
-                Intent myIntent = new Intent(newContext, AgentsActivity.class);
+                Intent myIntent = new Intent(newContext, AgentsInfoActivity.class);
                 myIntent.putExtra("NAME",agentName);
                 myIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 newContext.startActivity(myIntent);

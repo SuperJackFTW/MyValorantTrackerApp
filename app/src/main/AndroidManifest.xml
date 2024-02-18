@@ -27,12 +27,12 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".AgentsActivity"
+            android:name=".AgentsInfoActivity"
             android:exported="false"
             android:label="@string/title_activity_agents"
             android:theme="@style/Theme.MyValorantTrackerApp" />
         <activity
-            android:name=".MainActivity2"
+            android:name=".SecondActivity"
             android:exported="false" />
 
     </application>

@@ -3,19 +3,19 @@ package com.example.myvaloranttrackerapp;
 import org.litepal.crud.LitePalSupport;
 
 public class DatabaseColumn extends LitePalSupport {
-    private String displayName;
+    private String displayname;
     private String uuid;
     private String description;
-    private String developerName;
-    private String displayIcon;
-    private String fullPortrait;
+    private String developer;
+    private String icon;
+    private String portrait;
 
     public String getDisplayName() {
-        return displayName;
+        return displayname;
     }
 
-    public void setDisplayName(String displayName) {
-        this.displayName = displayName;
+    public void setDisplayName(String displayname) {
+        this.displayname = displayname;
     }
 
     public String getUuid() {
@@ -35,26 +35,26 @@ public class DatabaseColumn extends LitePalSupport {
     }
 
     public String getDeveloperName() {
-        return developerName;
+        return developer;
     }
 
     public void setDeveloperName(String developerName) {
-        this.developerName = developerName;
+        this.developer = developerName;
     }
 
     public String getDisplayIcon() {
-        return displayIcon;
+        return icon;
     }
 
     public void setDisplayIcon(String displayIcon) {
-        this.displayIcon = displayIcon;
+        this.icon = displayIcon;
     }
 
     public String getFullPortrait() {
-        return fullPortrait;
+        return portrait;
     }
 
     public void setFullPortrait(String fullPortrait) {
-        this.fullPortrait = fullPortrait;
+        this.portrait = fullPortrait;
     }
 }

@@ -3,7 +3,6 @@ package com.example.myvaloranttrackerapp;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -51,8 +50,30 @@ public class MainActivity extends AppCompatActivity {
 
         //Request for retrofit
         RequestInterface requestRetrofit = MyRetrofit.getRetrofit().create(RequestInterface.class);
-        //Retrieve image from online API
-        Call<Users> getTheImage = requestRetrofit.getUser(String.valueOf(myStringBuilder));
+
+        //Retrieve the image from online API if no values exist in database, otherwise, just takes the image from database
+        boolean isMyTableEmpty = LitePal.count(DatabaseColumn.class) == 0;
+        if(isMyTableEmpty == false){
+            DatabaseColumn findImage = LitePal.find(DatabaseColumn.class,randomNum);
+            String img = findImage.getDisplayIcon();
+            Picasso.get().load(img).into(firstPageImage);
+        }
+        else
+        {
+            //Retrieve image from online API
+            Call<Users> getTheImage = requestRetrofit.getUser(String.valueOf(myStringBuilder));
+            getTheImage.enqueue(new Callback<Users>() {
+                @Override
+                public void onResponse(Call<Users> getTheImage, Response<Users> response) {
+                    String img = response.body().data.getDisplayIcon();
+                    Picasso.get().load(img).into(firstPageImage);
+                }
+                @Override
+                public void onFailure(Call<Users> getTheImage, Throwable t) {
+
+                }
+            });
+        }
 
         //A forloop to retrieve all the values from the API and store it into the database.
         for(int i= 0; i < myStringArray.length; i++){
@@ -100,35 +121,10 @@ public class MainActivity extends AppCompatActivity {
 
         }
 
-        //Retrieve the image from online API if no values exist in database, otherwise, just takes the image from database
-        boolean isMyTableEmpty = LitePal.count(DatabaseColumn.class) == 0;
-        if(isMyTableEmpty == false){
-            DatabaseColumn findImage = LitePal.find(DatabaseColumn.class,randomNum);
-            String img = findImage.getDisplayIcon();
-            Picasso.get().load(img).into(firstPageImage);
-        }
-        else
-        {
-            getTheImage.enqueue(new Callback<Users>() {
-                @Override
-                public void onResponse(Call<Users> getTheImage, Response<Users> response) {
-                    String img = response.body().data.getDisplayIcon();
-                    Picasso.get().load(img).into(firstPageImage);
-                }
-                @Override
-                public void onFailure(Call<Users> getTheImage, Throwable t) {
-
-                }
-            });
-        }
-
         //Button to navigate to the next activity.
-        myButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(MainActivity.this, MainActivity2.class);
-                startActivity(i);
-            }
+        myButton.setOnClickListener(v -> {
+            Intent i = new Intent(MainActivity.this, SecondActivity.class);
+            startActivity(i);
         });
     }
 }
